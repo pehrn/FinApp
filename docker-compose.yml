@@ -11,7 +11,6 @@ services:
     ports:
       - "8080:8080"
     environment:
-#      - ConnectionStrings__DefaultConnection=Host=db;Database=${POSTGRES_DB};Username=${POSTGRES_USER};Password=${POSTGRES_PASSWORD};Server=finapp_db;Port=5432;
       - ConnectionStrings__DefaultConnection=User ID=${POSTGRES_USER};Password=${POSTGRES_PASSWORD};Server=${POSTGRES_SERVER};Port=${POSTGRES_PORT};Database=${POSTGRES_DB};
       - ASPNETCORE_URLS=http://+:80
     env_file:
