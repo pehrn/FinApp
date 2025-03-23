@@ -1,7 +1,7 @@
 using FinApp.Api.Data;
 using Microsoft.AspNetCore.Mvc;
 
-namespace api.Controllers;
+namespace FinApp.Api.Controllers;
 
 [Route("api/stock")]
 [ApiController]
@@ -13,9 +13,9 @@ public class StockController : ControllerBase
     {
         _context = context;
     }
-
-    // [HttpGet]
-    // public IActionResult GetAll()
+    
+    // [HttpGet(Name = "GetAllStocks")]
+    // public aIActionResult GetAll()
     // {
     //     var stocks = _context.Stocks.ToList();
     // }
