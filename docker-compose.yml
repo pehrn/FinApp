@@ -1,19 +1,27 @@
-version: '3.4'
+networks:
+  dev:
+    driver: bridge
 
 services:
-  api:
-    image: api:latest
+  finapp_api:
+    image: finapp_api:latest
     build:
       context: .
       dockerfile: Dockerfile
     ports:
       - "8080:8080"
     environment:
-      - ConnectionStrings__DefaultConnection=Host=db;Database=${POSTGRES_DB};Username=${POSTGRES_USER};Password=${POSTGRES_PASSWORD}
+#      - ConnectionStrings__DefaultConnection=Host=db;Database=${POSTGRES_DB};Username=${POSTGRES_USER};Password=${POSTGRES_PASSWORD};Server=finapp_db;Port=5432;
+      - ConnectionStrings__DefaultConnection=User ID=${POSTGRES_USER};Password=${POSTGRES_PASSWORD};Server=${POSTGRES_SERVER};Port=${POSTGRES_PORT};Database=${POSTGRES_DB};
+      - ASPNETCORE_URLS=http://+:80
+    env_file:
+      - .env
     depends_on:
-      - db
+      - finapp_db
+    networks:
+      - dev
 
-  db:
+  finapp_db:
     image: postgres:latest
     environment:
       - POSTGRES_DB=${POSTGRES_DB}
@@ -21,3 +29,12 @@ services:
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
     ports:
       - "5432:5432"
+    restart: always
+    volumes:
+      - finapp_data:/var/lib/postgresql/data
+    networks:
+      - dev
+        
+volumes: 
+  finapp_data:
+        
