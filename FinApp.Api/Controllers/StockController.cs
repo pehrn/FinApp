@@ -1,4 +1,5 @@
 using FinApp.Api.Data;
+using FinApp.Api.Mappers;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FinApp.Api.Controllers;
@@ -17,7 +18,7 @@ public class StockController : ControllerBase
     [HttpGet(Name = "GetAllStocks")]
     public IActionResult GetAll()
     {
-        var stocks = _context.Stocks.ToList(); // deferred execution
+        var stocks = _context.Stocks.ToList().Select(s => s.ToStockDto());
         return Ok(stocks);
     }
 
@@ -28,6 +29,6 @@ public class StockController : ControllerBase
         
         if (stock == null) return NotFound();
         
-        return Ok(stock);
+        return Ok(stock.ToStockDto());
     }
 }
