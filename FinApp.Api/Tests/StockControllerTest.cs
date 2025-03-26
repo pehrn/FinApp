@@ -1,4 +1,9 @@
 using FakeItEasy;
+using FinApp.Api.Controllers;
+using FinApp.Api.Dtos.Stock;
+using FinApp.Api.Interfaces;
+using FinApp.Api.Models;
+using Microsoft.AspNetCore.Mvc;
 using Xunit;
 
 namespace FinApp.Api.Tests;
@@ -6,12 +11,27 @@ namespace FinApp.Api.Tests;
 public class StockControllerTest
 {
     [Fact]
-    public void GetAllStocks_ReturnsAllStocks()
+    public async Task GetAllStocks_ReturnsAllStocks()
     {
         // Arrange
+        var count = 5;
+        var fakeStocks = A.CollectionOfDummy<Stock>(count).AsEnumerable();
+        
+        var dataStore = A.Fake<IStockRepository>();
+        
+        A.CallTo(() => dataStore.GetAllAsync()).Returns(fakeStocks.ToList());
+        
+        var controller = new StockController(dataStore);
         
         // Act
-
+        var actionResult = await controller.GetAll();
+            
         // Assert
+        var result = actionResult as OkObjectResult;
+        Assert.NotNull(result);
+        
+        var stocks = result.Value as IEnumerable<StockDto>;
+        Assert.NotNull(stocks);
+        Assert.Equal(count, stocks.Count());
     }
 }
