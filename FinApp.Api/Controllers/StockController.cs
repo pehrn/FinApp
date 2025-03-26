@@ -14,9 +14,20 @@ public class StockController : ControllerBase
         _context = context;
     }
     
-    // [HttpGet(Name = "GetAllStocks")]
-    // public aIActionResult GetAll()
-    // {
-    //     var stocks = _context.Stocks.ToList();
-    // }
+    [HttpGet(Name = "GetAllStocks")]
+    public IActionResult GetAll()
+    {
+        var stocks = _context.Stocks.ToList(); // deferred execution
+        return Ok(stocks);
+    }
+
+    [HttpGet("{id}", Name = "GetStockById")]
+    public IActionResult GetById([FromRoute] int id)
+    {
+        var stock = _context.Stocks.Find(id);
+        
+        if (stock == null) return NotFound();
+        
+        return Ok(stock);
+    }
 }
