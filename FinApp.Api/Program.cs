@@ -1,6 +1,8 @@
 using FinApp.Api.Data;
 using Microsoft.EntityFrameworkCore;
 using DotNetEnv;
+using FinApp.Api.Interfaces;
+using FinApp.Api.Repository;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,6 +19,8 @@ builder.Services.AddDbContext<ApplicationDBContext>(options =>
 {
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
+
+builder.Services.AddScoped<IStockRepository, StockRepository>();
 
 var app = builder.Build();
 
