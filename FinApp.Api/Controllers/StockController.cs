@@ -1,5 +1,7 @@
 using FinApp.Api.Data;
+using FinApp.Api.Dtos.Stock;
 using FinApp.Api.Mappers;
+using FinApp.Api.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FinApp.Api.Controllers;
@@ -30,5 +32,14 @@ public class StockController : ControllerBase
         if (stock == null) return NotFound();
         
         return Ok(stock.ToStockDto());
+    }
+
+    [HttpPost]
+    public IActionResult Create([FromBody] CreateStockRequestDto stockDto)
+    {
+        var stockModel = stockDto.ToStockFromCreateDto();
+        _context.Stocks.Add(stockModel);
+        _context.SaveChanges();
+        return CreatedAtAction(nameof(GetById), new { id = stockModel.Id }, stockModel.ToStockDto());
     }
 }
