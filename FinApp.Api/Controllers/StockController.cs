@@ -20,7 +20,7 @@ public class StockController : ControllerBase
     }
     
     [HttpGet(Name = "GetAllStocks")]
-    public async Task<IActionResult>  GetAll()
+    public async Task<IActionResult> GetAll()
     {
         var stocks = await _stockRepo.GetAllAsync();
 

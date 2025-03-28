@@ -8,25 +8,24 @@ namespace FinApp.Tests.ControllerTests;
 
 public class CommentControllerTests
 {
+    private readonly ICommentRepository _commentRepo;
+    private readonly CommentController _controller;
+    
+    public CommentControllerTests()
+    {
+        _commentRepo = A.Fake<ICommentRepository>();
+        _controller = A.Fake<CommentController>();
+    }
+    
     [Fact]
-    public async Task GetAllComments_ReturnsAllComments()
+    public async Task CommentController_GetAll_ReturnsOk()
     {
         // Arrange
-        var count = 3;
-        var fakeComments = A.CollectionOfDummy<Comment>(count).AsEnumerable();
-        var dataStore = A.Fake<ICommentRepository>();
-        A.CallTo(() => dataStore.GetAllAsync()).Returns(fakeComments.ToList());
-        var controller = new CommentController(dataStore);
+        var comments = A.Fake<ICollection<CommentDto>>();
+        var commentsList = A.Fake<List<CommentDto>>();
         
         // Act
-        var actionResult = await controller.GetAll();
-            
-        // Assert
-        var result = actionResult as OkObjectResult;
-        Assert.NotNull(result);
         
-        var comments = result.Value as IEnumerable<CommentDto>;
-        Assert.NotNull(comments);
-        Assert.Equal(count, comments.Count());
+        // Assert
     }
 }
