@@ -1,5 +1,6 @@
 using FinApp.Api.Controllers;
 using FinApp.Api.Dtos.Comment;
+using FinApp.Api.Dtos.Stock;
 using FinApp.Api.Interfaces;
 using FinApp.Api.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -49,5 +50,26 @@ public class CommentControllerTests
         
         var errorMesage = result as BadRequestObjectResult;
         errorMesage.Value.Should().Be("Stock does not exist");
+    }
+
+    [Fact]
+    public async Task CommentController_Create_ReturnCreatedAtActionResult()
+    {
+        // TODO: Needs existing stock
+        
+        // Arrange
+        var stock = A.Fake<Stock>();
+        var comment = A.Fake<Comment>();
+        var commentDto = A.Fake<CreateCommentDto>();
+        A.CallTo(() => _commentRepo.CreateAsync(comment)).Returns(comment);
+        
+        var controller = new CommentController(_commentRepo, _stockRepo);
+        
+        // Act
+        var result = await controller.Create(stock.Id, commentDto);
+        
+        // Assert
+        result.Should().NotBeNull();
+        result.Should().BeOfType<CreatedAtActionResult>();
     }
 }
