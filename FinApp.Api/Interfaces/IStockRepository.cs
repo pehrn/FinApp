@@ -1,0 +1,13 @@
+using FinApp.Api.Dtos.Stock;
+using FinApp.Api.Models;
+
+namespace FinApp.Api.Interfaces;
+
+public interface IStockRepository
+{
+    Task<List<Stock>> GetAllAsync();
+    Task<Stock?> GetByIdAsync(int id);
+    Task<Stock> CreateAsync(Stock stockModel);
+    Task<Stock?> UpdateAsync(int id, UpdateStockRequestDto stockDto);
+    Task<Stock?> DeleteAsync(int id);
+}
