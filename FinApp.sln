@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FinApp.Api", "..\..\Desktop\FinApp\FinApp.Api\FinApp.Api.csproj", "{5CC552E2-A03A-4ACB-82AD-D4511BB556C0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FinApp.Tests", "..\..\Desktop\FinApp\FinApp.Tests\FinApp.Tests.csproj", "{8A3675AC-E72C-423A-8A2B-46B3E16CC418}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5CC552E2-A03A-4ACB-82AD-D4511BB556C0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5CC552E2-A03A-4ACB-82AD-D4511BB556C0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5CC552E2-A03A-4ACB-82AD-D4511BB556C0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5CC552E2-A03A-4ACB-82AD-D4511BB556C0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8A3675AC-E72C-423A-8A2B-46B3E16CC418}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8A3675AC-E72C-423A-8A2B-46B3E16CC418}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8A3675AC-E72C-423A-8A2B-46B3E16CC418}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8A3675AC-E72C-423A-8A2B-46B3E16CC418}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
