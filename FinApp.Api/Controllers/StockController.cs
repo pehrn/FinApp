@@ -1,5 +1,6 @@
 using FinApp.Api.Data;
 using FinApp.Api.Dtos.Stock;
+using FinApp.Api.Helpers;
 using FinApp.Api.Interfaces;
 using FinApp.Api.Mappers;
 using FinApp.Api.Models;
@@ -20,11 +21,11 @@ public class StockController : ControllerBase
     }
     
     [HttpGet(Name = "GetAllStocks")]
-    public async Task<IActionResult> GetAll()
+    public async Task<IActionResult> GetAll([FromQuery] QueryObject query)
     {
         if (!ModelState.IsValid) return BadRequest(ModelState);
         
-        var stocks = await _stockRepo.GetAllAsync();
+        var stocks = await _stockRepo.GetAllAsync(query);
 
         var stockDto = stocks.Select(s => s.ToStockDto());
         

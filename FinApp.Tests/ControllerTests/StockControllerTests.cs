@@ -1,5 +1,6 @@
 using FinApp.Api.Controllers;
 using FinApp.Api.Dtos.Stock;
+using FinApp.Api.Helpers;
 using FinApp.Api.Interfaces;
 using FinApp.Api.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -21,13 +22,15 @@ public class StockControllerTests
         // Arrage
         var stocks = A.Fake<ICollection<Stock>>();
         var stocksList = A.Fake<List<Stock>>();
-        A.CallTo(() => _stockRepo.GetAllAsync()).Returns(stocksList);
+        var query = A.Fake<QueryObject>();
+        
+        A.CallTo(() => _stockRepo.GetAllAsync(query)).Returns(stocksList);
         
         var controller = new StockController(_stockRepo);
-
+    
         // Act
-        var result = await controller.GetAll();
-
+        var result = await controller.GetAll(query);
+    
         // Assert
         result.Should().NotBeNull(); 
         result.Should().BeOfType<OkObjectResult>();
@@ -40,11 +43,13 @@ public class StockControllerTests
         var count = 5;
         var fakeStocks = A.CollectionOfDummy<Stock>(count).AsEnumerable();
         var dataStore = A.Fake<IStockRepository>();
-        A.CallTo(() => dataStore.GetAllAsync()).Returns(fakeStocks.ToList());
+        var query = A.Fake<QueryObject>();
+
+        A.CallTo(() => dataStore.GetAllAsync(query)).Returns(fakeStocks.ToList());
         var controller = new StockController(dataStore);
         
         // Act
-        var actionResult = await controller.GetAll();
+        var actionResult = await controller.GetAll(query);
             
         // Assert
         var result = actionResult as OkObjectResult;
@@ -54,8 +59,20 @@ public class StockControllerTests
         Assert.NotNull(stocks);
         Assert.Equal(count, stocks.Count());
     }
+    
+    [Fact(Skip = "Not implemented yet")]
+    public async Task StockController_GetAll_FilterBySymbol_ReturnsSpecificStock()
+    {
+        // todo
+    }
+    
+    [Fact(Skip = "Not implemented yet")]
+    public async Task StockController_GetAll_FilterByCompanyName_ReturnsSpecificStock()
+    {
+        // todo
+    }
 
-    [Fact]
+    [Fact(Skip = "Not implemented yet")]
     public async Task StockController_GetById_ReturnsSpecificStock()
     {
         // todo
