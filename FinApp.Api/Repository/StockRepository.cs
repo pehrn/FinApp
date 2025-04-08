@@ -24,7 +24,6 @@ public class StockRepository : IStockRepository
         
         if (!string.IsNullOrWhiteSpace(query.Symbol)) stocks = stocks.Where(s => s.Symbol.Contains(query.Symbol));
 
-
         if (!string.IsNullOrWhiteSpace(query.SortBy))
         {
             if (query.SortBy.Equals("Symbol", StringComparison.OrdinalIgnoreCase))
@@ -36,8 +35,10 @@ public class StockRepository : IStockRepository
                 stocks = query.IsDescending ? stocks.OrderByDescending(s => s.CompanyName) : stocks.OrderBy(s => s.CompanyName);
             }
         }
+
+        var skipNumber = (query.PageNumber - 1) * query.PageSize;
         
-        return await stocks.ToListAsync();
+        return await stocks.Skip(skipNumber).Take(query.PageSize).ToListAsync();
     }
     
     public async Task<Stock?> GetByIdAsync(int id)
