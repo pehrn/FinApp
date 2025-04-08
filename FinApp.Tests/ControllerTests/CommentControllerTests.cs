@@ -52,7 +52,7 @@ public class CommentControllerTests
         errorMesage.Value.Should().Be("Stock does not exist");
     }
 
-    [Fact]
+    [Fact(Skip = "Needs mocked stock")]
     public async Task CommentController_Create_ReturnCreatedAtActionResult()
     {
         // TODO: Needs existing stock
@@ -72,4 +72,53 @@ public class CommentControllerTests
         result.Should().NotBeNull();
         result.Should().BeOfType<CreatedAtActionResult>();
     }
+    
+    [Fact(Skip = "Not implemented yet")]
+    public async Task CommentController_Create_TitleTooShort_ThrowsError()
+    {
+        
+    }
+    
+    [Fact(Skip = "Not implemented yet")]
+    public async Task CommentController_Create_TitleTooLong_ThrowsError()
+    {
+        
+    }
+    
+    [Fact(Skip = "Not implemented yet")]
+    public async Task CommentController_Create_ContentTooShort_ThrowsError()
+    {
+        
+    }
+    
+    [Fact(Skip = "Not implemented yet")]
+    public async Task CommentController_Create_ContentTooLong_ThrowsError()
+    {
+        
+    }
+    
+    [Fact(Skip = "Not implemented yet")]
+    public async Task CommentController_GetById_ReturnsOk()
+    {
+        
+    }
+    
+    [Fact(Skip = "Not implemented yet")]
+    public async Task CommentController_GetById_IdNotAnInt_Returns404()
+    {
+        
+    }
+
+    [Fact(Skip = "Not implemented yet")]
+    public async Task CommentController_Update_CommentUpdated()
+    {
+        
+    }
+    
+    [Fact(Skip = "Not implemented yet")]
+    public async Task CommentController_Delete_CommentDeleted()
+    {
+        
+    }
+    
 }

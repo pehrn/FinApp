@@ -60,7 +60,14 @@ public class StockControllerTests
     {
         // todo
     }
-
+    
+    
+    [Fact(Skip = "Not implemented yet")]
+    public async Task CommentController_GetById_IdNotAnInt_Returns404()
+    {
+        
+    }
+    
     [Fact]
     public async Task StockController_Create_ReturnCreatedAtActionResult()
     {
