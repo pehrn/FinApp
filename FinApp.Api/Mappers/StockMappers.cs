@@ -32,5 +32,18 @@ public static class StockMappers
             Purchase = stockDto.Purchase
         };
     }
+    
+    public static Stock ToStockFromFMP(this FMPStock fmpStock)
+    {
+        return new Stock
+        {
+            Symbol = fmpStock.Symbol,
+            CompanyName = fmpStock.CompanyName,
+            Industry = fmpStock.Industry,
+            LastDiv = fmpStock.LastDividend,
+            MarketCap = fmpStock.MarketCap,
+            Purchase = (decimal)fmpStock.Price
+        };
+    }
 
 }

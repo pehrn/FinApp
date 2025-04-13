@@ -15,12 +15,14 @@ public class CommentController : ControllerBase
     private readonly ICommentRepository _commentRepo;
     private readonly IStockRepository _stockRepo;
     private readonly UserManager<AppUser> _userManager;
+    private readonly IFMPService _fmpService;
 
-    public CommentController(ICommentRepository commentRepo, IStockRepository stockRepo, UserManager<AppUser> userManager)
+    public CommentController(ICommentRepository commentRepo, IStockRepository stockRepo, UserManager<AppUser> userManager, IFMPService fmpService)
     {
         _commentRepo = commentRepo;
         _stockRepo = stockRepo;
         _userManager = userManager;
+        _fmpService = fmpService;
     }
 
     [HttpGet]
@@ -43,22 +45,28 @@ public class CommentController : ControllerBase
         var comment = await _commentRepo.GetByIdAsync(id);
         
         if (comment == null) return NotFound();
-        
+         
         return Ok(comment.ToCommentDto());
     }
 
-    [HttpPost("{stockId:int}")]
+    [HttpPost("{symbol:alpha}")]
     [Authorize]
-    public async Task<IActionResult> Create([FromRoute] int stockId, CreateCommentDto commentDto)
+    public async Task<IActionResult> Create([FromRoute] string symbol, CreateCommentDto commentDto)
     {
         if (!ModelState.IsValid) return BadRequest(ModelState);
+
+        var stock = await _stockRepo.GetBySymbolAsync(symbol);
         
-        if (!await _stockRepo.StockExists(stockId)) return BadRequest("Stock does not exist");
+        if (stock == null) stock = await _fmpService.FindStockBySymbolAsync(symbol);
+        
+        if (stock == null) return BadRequest("Stock does not exist");
+        
+        await _stockRepo.CreateAsync(stock);
         
         var username = _userManager.GetUserName(User);
         var appUser = await _userManager.FindByNameAsync(username);
 
-        var commentModel = commentDto.ToCommentFromCreate(stockId);
+        var commentModel = commentDto.ToCommentFromCreate(stock.Id);
         
         commentModel.AppUserId = appUser.Id;
 
