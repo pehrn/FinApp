@@ -6,4 +6,5 @@ public interface IPortfolioRepository
 {
     Task<List<Stock>> GetUserPortfolio(AppUser user);
     Task<Portfolio> CreateAsync(Portfolio portfolio);
+    Task<Portfolio> DeleteStockFromPortfolioAsync(AppUser appUser, string symbol);
 }
