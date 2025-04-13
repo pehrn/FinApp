@@ -3,6 +3,7 @@ using FinApp.Api.Dtos.Comment;
 using FinApp.Api.Dtos.Stock;
 using FinApp.Api.Interfaces;
 using FinApp.Api.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FinApp.Tests.ControllerTests;
@@ -11,11 +12,13 @@ public class CommentControllerTests
 {
     private readonly ICommentRepository _commentRepo;
     private readonly IStockRepository _stockRepo;
+    private readonly UserManager<AppUser> _appUser;
     
     public CommentControllerTests()
     {
         _commentRepo = A.Fake<ICommentRepository>();
         _stockRepo = A.Fake<IStockRepository>();
+        _appUser = A.Fake<UserManager<AppUser>>();
     }
     
     [Fact]
@@ -39,7 +42,7 @@ public class CommentControllerTests
         var commentDto = A.Fake<CreateCommentDto>();
         A.CallTo(() => _commentRepo.CreateAsync(comment)).Returns(comment);
 
-        var controller = new CommentController(_commentRepo, _stockRepo);
+        var controller = new CommentController(_commentRepo, _stockRepo, _appUser);
 
         // Act
         var result = await controller.Create(id, commentDto);
@@ -60,10 +63,11 @@ public class CommentControllerTests
         // Arrange
         var stock = A.Fake<Stock>();
         var comment = A.Fake<Comment>();
+        var appUser = A.Fake<AppUser>();
         var commentDto = A.Fake<CreateCommentDto>();
         A.CallTo(() => _commentRepo.CreateAsync(comment)).Returns(comment);
         
-        var controller = new CommentController(_commentRepo, _stockRepo);
+        var controller = new CommentController(_commentRepo, _stockRepo, _appUser);
         
         // Act
         var result = await controller.Create(stock.Id, commentDto);

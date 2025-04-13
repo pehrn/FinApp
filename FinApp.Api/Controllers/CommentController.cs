@@ -2,6 +2,8 @@ using FinApp.Api.Dtos.Comment;
 using FinApp.Api.Interfaces;
 using FinApp.Api.Mappers;
 using FinApp.Api.Models;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FinApp.Api.Controllers;
@@ -12,11 +14,13 @@ public class CommentController : ControllerBase
 {
     private readonly ICommentRepository _commentRepo;
     private readonly IStockRepository _stockRepo;
+    private readonly UserManager<AppUser> _userManager;
 
-    public CommentController(ICommentRepository commentRepo, IStockRepository stockRepo)
+    public CommentController(ICommentRepository commentRepo, IStockRepository stockRepo, UserManager<AppUser> userManager)
     {
         _commentRepo = commentRepo;
         _stockRepo = stockRepo;
+        _userManager = userManager;
     }
 
     [HttpGet]
@@ -44,13 +48,19 @@ public class CommentController : ControllerBase
     }
 
     [HttpPost("{stockId:int}")]
+    [Authorize]
     public async Task<IActionResult> Create([FromRoute] int stockId, CreateCommentDto commentDto)
     {
         if (!ModelState.IsValid) return BadRequest(ModelState);
         
         if (!await _stockRepo.StockExists(stockId)) return BadRequest("Stock does not exist");
+        
+        var username = _userManager.GetUserName(User);
+        var appUser = await _userManager.FindByNameAsync(username);
 
         var commentModel = commentDto.ToCommentFromCreate(stockId);
+        
+        commentModel.AppUserId = appUser.Id;
 
         await _commentRepo.CreateAsync(commentModel);
         
