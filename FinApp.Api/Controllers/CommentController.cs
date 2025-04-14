@@ -1,4 +1,5 @@
 using FinApp.Api.Dtos.Comment;
+using FinApp.Api.Helpers;
 using FinApp.Api.Interfaces;
 using FinApp.Api.Mappers;
 using FinApp.Api.Models;
@@ -26,11 +27,12 @@ public class CommentController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetAll()
+    [Authorize]
+    public async Task<IActionResult> GetAll([FromQuery] CommentQueryObject queryObject)
     {
         if (!ModelState.IsValid) return BadRequest(ModelState);
         
-        var comments = await _commentRepo.GetAllAsync();
+        var comments = await _commentRepo.GetAllAsync(queryObject);
 
         var commentsDto = comments.Select(s => s.ToCommentDto());
         

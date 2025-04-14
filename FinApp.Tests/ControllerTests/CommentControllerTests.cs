@@ -13,9 +13,11 @@ public class CommentControllerTests
     private readonly ICommentRepository _commentRepo;
     private readonly IStockRepository _stockRepo;
     private readonly UserManager<AppUser> _appUser;
+    private readonly IFMPService _fmpService;
     
     public CommentControllerTests()
     {
+        _fmpService = A.Fake<IFMPService>();
         _commentRepo = A.Fake<ICommentRepository>();
         _stockRepo = A.Fake<IStockRepository>();
         _appUser = A.Fake<UserManager<AppUser>>();
@@ -37,15 +39,15 @@ public class CommentControllerTests
     public async Task CommentController_Create_StockDoesNotExist_ReturnsBadRequest()
     {
         // Arrange
-        var id = 1;
+        var symbol = "AAPL";
         var comment = A.Fake<Comment>();
         var commentDto = A.Fake<CreateCommentDto>();
         A.CallTo(() => _commentRepo.CreateAsync(comment)).Returns(comment);
 
-        var controller = new CommentController(_commentRepo, _stockRepo, _appUser);
+        var controller = new CommentController(_commentRepo, _stockRepo, _appUser, _fmpService);
 
         // Act
-        var result = await controller.Create(id, commentDto);
+        var result = await controller.Create(symbol, commentDto);
 
         // Assert
         result.Should().NotBeNull();
@@ -61,16 +63,16 @@ public class CommentControllerTests
         // TODO: Needs existing stock
         
         // Arrange
-        var stock = A.Fake<Stock>();
+        var symbol = "AAPL";
         var comment = A.Fake<Comment>();
         var appUser = A.Fake<AppUser>();
         var commentDto = A.Fake<CreateCommentDto>();
         A.CallTo(() => _commentRepo.CreateAsync(comment)).Returns(comment);
         
-        var controller = new CommentController(_commentRepo, _stockRepo, _appUser);
+        var controller = new CommentController(_commentRepo, _stockRepo, _appUser, _fmpService);
         
         // Act
-        var result = await controller.Create(stock.Id, commentDto);
+        var result = await controller.Create(symbol, commentDto);
         
         // Assert
         result.Should().NotBeNull();

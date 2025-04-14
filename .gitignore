@@ -47,3 +47,7 @@ msbuild.wrn
 
 # Migrations
 Migrations/
+
+# Development
+FinApp.Api/appsettings.Development.json
+FinApp.Api/appsettings.Production.json
