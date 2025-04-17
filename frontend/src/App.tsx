@@ -7,7 +7,7 @@ import Search from './Components/Search/Search';
 
 function App() {
     const [search, setSearch] = useState<string>("");
-    const [searchResults, setSearchResults] = useState<CompanySearch[]>([]);
+    const [searchResult, setSearchResult] = useState<CompanySearch[]>([]);
     const [serverError, setServerError] = useState<string>("");
     
     const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -21,7 +21,7 @@ function App() {
         if (typeof result === "string") {
             setServerError(result);
         } else if (Array.isArray(result.data)) {
-            setSearchResults(result.data);
+            setSearchResult(result.data);
         }
         
         // console.log(searchResults);
@@ -30,7 +30,8 @@ function App() {
   return (
     <div className="App">
         <Search onClick={onClick} search={search} handleChange={handleChange}/>
-        <CardList />
+        <CardList searchResults={searchResult} />
+        {serverError && <h1>{serverError}</h1>}
     </div>
   );
 }

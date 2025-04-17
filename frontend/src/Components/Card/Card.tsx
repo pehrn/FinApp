@@ -1,21 +1,21 @@
 import React, { JSX } from "react";
+import { CompanySearch } from "../../company";
 import "./Card.css";
 
 interface Props {
-    companyName: string;
-    ticker: string;
-    price: number;
+    id: string;
+    searchResult: CompanySearch;
 };
 
-const Card: React.FC<Props> = ({ companyName, ticker, price }: Props): JSX.Element => {
+const Card: React.FC<Props> = ({ id, searchResult }: Props): JSX.Element => {
     return (
         <div className="card">
+            <img alt="company logo" />
             <div className="details">
-                <h2>{companyName}</h2>
-                <h5>{ticker}</h5>
-                <p>${price}</p>
+                {searchResult.name} ({searchResult.symbol})
             </div>
-            <p className="info">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Labore, maiores!</p>
+            <p>{searchResult.currency}</p>
+            <p className="info">{searchResult.exchangeShortName} - {searchResult.stockExchange}</p>
         </div>
     )
 };
