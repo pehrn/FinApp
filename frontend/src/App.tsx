@@ -3,6 +3,7 @@ import { searchCompanies } from './api';
 import './App.css';
 import { CompanySearch } from './company';
 import CardList from './Components/CardList/CardList';
+import Navbar from './Components/Navbar/Navbar';
 import ListPortfolio from './Components/Portfolio/ListPortfolio/ListPortfolio';
 import Search from './Components/Search/Search';
 
@@ -51,6 +52,7 @@ function App() {
     
   return (
     <div className="App">
+        <Navbar />
         <Search onSearchSubmit={onSearchSubmit} search={search} handleSearchChange={handleSearchChange}/>
         <ListPortfolio portfolioValues={portfolioValues} onDeleteFromPortfolio={onDeleteFromPortfolio}/>
         <CardList searchResults={searchResult} onPortfolioCreate={onPortfolioCreate}/>
