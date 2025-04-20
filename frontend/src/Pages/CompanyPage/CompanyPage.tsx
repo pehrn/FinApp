@@ -4,6 +4,8 @@ import { getCompanyProfile } from '../../api';
 import { CompanyProfile } from '../../company';
 import CompanyDashboard from '../../Components/CompanyDashboard/CompanyDashboard';
 import Sidebar from '../../Components/Sidebar/Sidebar';
+import Spinner from '../../Components/Spinners/Spinner';
+import TenKFinder from '../../Components/TenKFinder/TenKFinder';
 import Tile from '../../Components/Tile/Tile';
 
 interface Props {};
@@ -33,10 +35,11 @@ const CompanyPage = (props: Props) => {
                     <p className="bg-white shadow rounded text-medium text-gray-900 p-3 mt-1 m-4">
                         { company.description }
                     </p>
+                    <TenKFinder ticker={company.symbol} />
                 </CompanyDashboard>
             </div>
         ) : (
-            <div>Company not found.</div>
+            <Spinner />
             )
         }
     </>;
