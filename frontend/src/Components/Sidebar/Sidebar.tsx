@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { FaHome } from 'react-icons/fa';
+import {FaBook, FaHome } from 'react-icons/fa';
+import {FaFileLines, FaListUl} from "react-icons/fa6";
 
 interface Props {}
 
@@ -17,9 +18,17 @@ const Sidebar = (props: Props) => {
                             <FaHome />
                             <h6 className="ml-3">Company Profile</h6>
                         </Link>
+                        <Link to="balance-sheet" className="flex md:min-w-full text-blueGray-500 text-medium uppercase font-bold block pt-1 pb-4 no-underline">
+                            <FaBook />
+                            <h6 className="ml-3">Balance Sheet</h6>
+                        </Link>
                         <Link to="income-statement" className="flex md:min-w-full text-blueGray-500 text-medium uppercase font-bold block pt-1 pb-4 no-underline">
-                            <FaHome />
+                            <FaFileLines />
                             <h6 className="ml-3">Income Statement</h6>
+                        </Link>
+                        <Link to="cashflow-statement" className="flex md:min-w-full text-blueGray-500 text-medium uppercase font-bold block pt-1 pb-4 no-underline">
+                            <FaListUl />
+                            <h6 className="ml-3">Cashflow Statement</h6>
                         </Link>
                     </div>
                 </div>
