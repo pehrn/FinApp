@@ -3,6 +3,7 @@ import App from "../App";
 import CompanyProfile from "../Components/CompanyProfile/CompanyProfile";
 import IncomeStatement from "../Components/IncomeStatement/IncomeStatement";
 import CompanyPage from "../Pages/CompanyPage/CompanyPage";
+import DesignPage from "../Pages/DesignPage/DesignPage";
 import HomePage from "../Pages/HomePage/HomePage";
 import SearchPage from "../Pages/SearchPage/SearchPage";
 
@@ -13,6 +14,7 @@ export const router = createBrowserRouter([
         children: [
             { path: "", element: <HomePage /> },
             { path: "search", element: <SearchPage /> },
+            { path: "design-guide", element: <DesignPage /> },
             {
                 path: 
                     "company/:ticker", 
