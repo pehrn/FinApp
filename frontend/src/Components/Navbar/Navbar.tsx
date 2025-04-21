@@ -1,4 +1,5 @@
 import React from "react";
+import { FaMagnifyingGlass } from "react-icons/fa6";
 import { Link } from "react-router-dom";
 import logo from "./logo2.png";
 import "./Navbar.css";
@@ -14,7 +15,8 @@ const Navbar = (props: Props) => {
                         <img src={logo} alt="" />
                     </Link>
                     <div className="hidden font-bold lg:flex">
-                        <Link to="/search" className="text-black hover:text-darkBlue">
+                        <FaMagnifyingGlass />
+                        <Link to="/search" className="text-black hover:text-darkBlue ml-3">
                             Search
                         </Link>
                     </div>
