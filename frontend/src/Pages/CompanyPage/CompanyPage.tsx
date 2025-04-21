@@ -33,10 +33,10 @@ const CompanyPage = (props: Props) => {
                     <Tile title="Sector" subTitle={company.sector} />
                     <Tile title="Price" subTitle={"$" + company.price.toString()} />
                     <Tile title="Market cap" subTitle={formatLargeMonetaryNumber(company.mktCap)} />
+                    <TenKFinder ticker={company.symbol} />
                     <p className="bg-white shadow rounded text-medium text-gray-900 p-3 mt-1 m-4">
                         { company.description }
                     </p>
-                    <TenKFinder ticker={company.symbol} />
                 </CompanyDashboard>
             </div>
         ) : (

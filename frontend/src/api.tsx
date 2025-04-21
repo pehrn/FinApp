@@ -14,15 +14,13 @@ export const searchCompanies = async (query: string) => {
       
       return data;
   }  catch (error) {
-        // if (axios.isAxiosError(error)) {
-        //     console.log(`Error: ${error}`);
-        //     return error.message;
-        // } else {
-        //     console.log(`Unexpected error: ${error}`);
-        //     return "An unexpected error has occurred.";
-        // }
-      console.log(`Unexpected error: ${error}`);
-      return "An unexpected error has occurred.";
+        if (axios.isAxiosError(error)) {
+            console.log(`Error: ${error}`);
+            return error.message;
+        } else {
+            console.log(`Unexpected error: ${error}`);
+            return "An unexpected error has occurred.";
+        }
   }
 };
 
@@ -38,7 +36,7 @@ export const getCompanyProfile = async (query: string) => {
 
 export const getKeyMetrics = async (query: string) => {
     try {
-        const data = await axios.get<CompanyKeyMetrics[]>(`https://financialmodelingprep.com/api/v3/key-metrics-ttm/${query}&apikey=${process.env.REACT_APP_FMPKey}`);
+        const data = await axios.get<CompanyKeyMetrics[]>(`https://financialmodelingprep.com/api/v3/key-metrics-ttm/${query}?limit=40&apikey=${process.env.REACT_APP_FMPKey}`);
 
         return data;
     }  catch (error: any) {
