@@ -27,6 +27,7 @@ export const UserProvider = ({ children }: Props) => {
     const [isReady, setIsReady] = useState(false);
     
     useEffect(() => {
+        // localStorage to keep it simple
         const user = localStorage.getItem("user");
         const token = localStorage.getItem("token");
         
@@ -82,6 +83,7 @@ export const UserProvider = ({ children }: Props) => {
         localStorage.removeItem("user");
         setUser(null);
         setToken("");
+        toast.success("You have been logged out");
         navigate("/");
     };
     

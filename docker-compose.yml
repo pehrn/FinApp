@@ -10,8 +10,6 @@ services:
       dockerfile: Dockerfile
     ports:
       - "80:80"
-#    volumes:
-#      - .:/app  
     environment:
       - ConnectionStrings__DefaultConnection=User ID=${POSTGRES_USER};Password=${POSTGRES_PASSWORD};Server=${POSTGRES_SERVER};Port=${POSTGRES_PORT};Database=${POSTGRES_DB};
       - ASPNETCORE_URLS=http://+:80
@@ -47,6 +45,7 @@ services:
       - "3000:3000"
     depends_on:
       - finapp_api
+      - finapp_db
         
 volumes: 
   finapp_data:
