@@ -3,11 +3,11 @@ import { handleError } from "../Helpers/ErrorHandler";
 import { CommentGet, CommentPost } from "../Models/Comment";
 
 // const api = "http://localhost:5210/api/comment";
-const api = "http://localhost:80/api/comment/";
+const api = "http://localhost:80/api/comment";
 
 export const commentPostAPI = async (title: string, content: string, symbol: string) => {
     try {
-        const data = await axios.post<CommentPost>(api + `${symbol}`, {
+        const data = await axios.post<CommentPost>(api + `/${symbol}`, {
             title: title,
             content: content
         });
