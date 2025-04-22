@@ -126,5 +126,7 @@ app.UseAuthorization();
 
 app.MapControllers();
 
+app.MapGet("/", () => "API is online");
+
 app.Run();
 
