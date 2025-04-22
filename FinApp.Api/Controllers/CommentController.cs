@@ -1,4 +1,5 @@
 using FinApp.Api.Dtos.Comment;
+using FinApp.Api.Extensions;
 using FinApp.Api.Helpers;
 using FinApp.Api.Interfaces;
 using FinApp.Api.Mappers;
@@ -51,29 +52,35 @@ public class CommentController : ControllerBase
         return Ok(comment.ToCommentDto());
     }
 
-    [HttpPost("{symbol:alpha}")]
+    [HttpPost]
+    [Route("{symbol:alpha}")]
     [Authorize]
     public async Task<IActionResult> Create([FromRoute] string symbol, CreateCommentDto commentDto)
     {
-        if (!ModelState.IsValid) return BadRequest(ModelState);
+        if (!ModelState.IsValid)
+            return BadRequest(ModelState);
 
         var stock = await _stockRepo.GetBySymbolAsync(symbol);
-        
-        if (stock == null) stock = await _fmpService.FindStockBySymbolAsync(symbol);
-        
-        if (stock == null) return BadRequest("Stock does not exist");
-        
-        await _stockRepo.CreateAsync(stock);
-        
-        var username = _userManager.GetUserName(User);
+
+        if (stock == null)
+        {
+            stock = await _fmpService.FindStockBySymbolAsync(symbol);
+            if (stock == null)
+            {
+                return BadRequest("Stock does not exists");
+            }
+            else
+            {
+                await _stockRepo.CreateAsync(stock);
+            }
+        }
+
+        var username = User.GetUsername();
         var appUser = await _userManager.FindByNameAsync(username);
 
         var commentModel = commentDto.ToCommentFromCreate(stock.Id);
-        
         commentModel.AppUserId = appUser.Id;
-
         await _commentRepo.CreateAsync(commentModel);
-        
         return CreatedAtAction(nameof(GetById), new { id = commentModel.Id }, commentModel.ToCommentDto());
     }
 
