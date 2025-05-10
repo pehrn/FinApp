@@ -104,6 +104,13 @@ builder.Services.AddHttpClient<IFMPService, FMPService>();
 
 var app = builder.Build();
 
+// Apply pending migrations at startup
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<ApplicationDBContext>();
+    db.Database.Migrate(); // Ensure the DB is migrated
+}
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {

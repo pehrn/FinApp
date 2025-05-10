@@ -36,7 +36,7 @@ const Navbar = (props: Props) => {
                     <div className="hidden lg:flex items-center space-x-6 text-back">
                         <Link to="/login" className="hover:text-darkBlue">Login</Link>
                         <Link
-                            to="/signup"
+                            to="/register"
                             className="px-8 py-3 font-bold rounded text-white bg-lightGreen hover:opacity-70"
                         >
                             Signup
