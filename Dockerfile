@@ -16,8 +16,6 @@ ARG BUILD_CONFIGURATION=Release
 RUN dotnet publish "FinApp.Api.csproj" -c $BUILD_CONFIGURATION -o /app/publish 
 
 FROM base AS final
-RUN apt-get update && apt-get install -y postgresql-client && rm -rf /var/lib/apt/lists/*
+WORKDIR /app
 COPY --from=publish /app/publish .
-COPY entrypoint.sh ./entrypoint.sh
-RUN chmod +x ./entrypoint.sh
-ENTRYPOINT ["./entrypoint.sh"]
+ENTRYPOINT [ "dotnet", "FinApp.Api.dll" ]

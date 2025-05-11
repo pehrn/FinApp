@@ -105,28 +105,40 @@ builder.Services.AddHttpClient<IFMPService, FMPService>();
 var app = builder.Build();
 
 // Apply pending migrations at startup
-using (var scope = app.Services.CreateScope())
-{
-    var db = scope.ServiceProvider.GetRequiredService<ApplicationDBContext>();
-    db.Database.Migrate(); // Ensure the DB is migrated
-}
+// using (var scope = app.Services.CreateScope())
+// {
+//     var db = scope.ServiceProvider.GetRequiredService<ApplicationDBContext>();
+//     db.Database.Migrate(); // Ensure the DB is migrated
+// }
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+    
+    app.UseCors(x => x
+        .AllowAnyMethod()
+        .AllowAnyHeader()
+        .AllowCredentials()
+        // .WithOrigins("https://finapp-demo.com", "https://www.finapp-demo.com")
+        .SetIsOriginAllowed(origin => true)
+    );
 }
 
 // app.UseHttpsRedirection();
 
-app.UseCors(x => x
-    .AllowAnyMethod()
-    .AllowAnyHeader()
-    .AllowCredentials()
-    // .WithOrigins("https://")
-    .SetIsOriginAllowed(origin => true)
-);
+if (app.Environment.IsProduction())
+{
+    app.UseCors(x => x
+            .AllowAnyMethod()
+            .AllowAnyHeader()
+            .AllowCredentials()
+            .WithOrigins("https://finapp-demo.com", "https://www.finapp-demo.com")
+        // .SetIsOriginAllowed(origin => true)
+    );
+}
+
 
 app.UseAuthentication();
 app.UseAuthorization();

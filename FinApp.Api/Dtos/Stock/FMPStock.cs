@@ -6,12 +6,12 @@ public class FMPStock
     public double Price { get; set; }
     public long MarketCap { get; set; }
     public double Beta { get; set; }
-    public int LastDividend { get; set; }
+    public decimal LastDividend { get; set; }
     public string Range { get; set; }
     public double Change { get; set; }
     public double ChangePercentage { get; set; }
-    public int Volume { get; set; }
-    public int AverageVolume { get; set; }
+    public long Volume { get; set; }
+    public long AverageVolume { get; set; }
     public string CompanyName { get; set; }
     public string Currency { get; set; }
     public string Cik { get; set; }

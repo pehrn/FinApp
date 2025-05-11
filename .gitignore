@@ -52,8 +52,13 @@ Migrations/
 FinApp.Api/appsettings.Development.json
 FinApp.Api/appsettings.Production.json
 
-docker-local/
-docker-prod/
+#docker-local/
+#docker-prod/
 certbot/
 certbot-conf/
 certbot-www/
+
+docker-compose.yml
+Dockerfile
+frontend/nginx.conf
+frontend/Dockerfile

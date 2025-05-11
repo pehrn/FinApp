@@ -29,6 +29,7 @@ public class FMPService : IFMPService
             var content = await result.Content.ReadAsStringAsync();
             
             var tasks = JsonConvert.DeserializeObject<FMPStock[]>(content);
+            
             var stock = tasks[0];
             
             if (stock == null) return null;
@@ -37,7 +38,6 @@ public class FMPService : IFMPService
         }
         catch (Exception e)
         {
-            Console.WriteLine(e);
             return null;
         }
     }

@@ -42,21 +42,19 @@ public class PortfolioController : ControllerBase
         var username = User.GetUsername();
         var appUser = await _userManager.FindByNameAsync(username);
         
-        var stock = await _stockRepo.GetBySymbolAsync(symbol);
-        
-        // TODO: Stock already in portfolio bug
-        if (stock == null) stock = await _fmpService.FindStockBySymbolAsync(symbol);
-        
-        if (stock == null) return BadRequest("Stock does not exist");
-        
-        await _stockRepo.CreateAsync(stock);
-        
-        if (stock == null) return BadRequest("Stock not found");
-        
         var userPortfolio = await _portfolioRepo.GetUserPortfolio(appUser);
         
         if (userPortfolio.Any(e => e.Symbol.ToLower() == symbol.ToLower())) return BadRequest("Stock already exists in the portfolio");
+        
+        var stock = await _stockRepo.GetBySymbolAsync(symbol);
 
+        if (stock == null)
+        {
+            stock = await _fmpService.FindStockBySymbolAsync(symbol);
+            if (stock == null) return BadRequest($"Could not find stock with symbol: '{symbol}'");
+            await _stockRepo.CreateAsync(stock);
+        }
+        
         var portfolioModel = new Portfolio
         {
             StockId = stock.Id,
@@ -66,7 +64,7 @@ public class PortfolioController : ControllerBase
         await _portfolioRepo.CreateAsync(portfolioModel);
         
         if (portfolioModel == null) return StatusCode(500, "Portfolio could not be created");
-
+        
         return Created();
     }
 
