@@ -1,4 +1,4 @@
-# FinApp Application
+# FinApp web-application
 
 ![Project Logo](https://github.com/pehrn/FinApp/blob/master/frontend/src/Components/Navbar/logo3.png)
 
