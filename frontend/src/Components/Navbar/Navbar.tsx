@@ -2,7 +2,7 @@ import React from "react";
 import { FaMagnifyingGlass } from "react-icons/fa6";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../Context/useAuth";
-import logo from "./logo2.png";
+import logo from "./logo3.png";
 import "./Navbar.css";
 
 interface Props {}
