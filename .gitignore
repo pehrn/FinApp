@@ -58,7 +58,7 @@ certbot/
 certbot-conf/
 certbot-www/
 
-docker-compose.yml
-Dockerfile
+./docker-compose.yml
+./Dockerfile
 frontend/nginx.conf
 frontend/Dockerfile
