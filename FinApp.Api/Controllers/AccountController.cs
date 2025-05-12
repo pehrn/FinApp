@@ -79,12 +79,22 @@ public class AccountController : ControllerBase
         }
     }
 
-    // [HttpGet("{id:int}", Name = "GetUserById")]
-    // public async Task<IActionResult> GetUserById([FromRoute] int id)
-    // {
-    //     if (!ModelState.IsValid) return BadRequest(ModelState);
-    //     
-    //     var user = await _userManager.FindByIdAsync()
-    // }
+    [HttpGet("{userName}", Name = "GetUserByUserName")]
+    public async Task<IActionResult> GetUserByUserName([FromRoute] string userName)
+    {
+        if (!ModelState.IsValid) return BadRequest(ModelState);
+
+        var user = await _userManager.FindByNameAsync(userName);
+        
+        if (user == null) return NotFound();
+        
+        return Ok(
+            new UserDto()
+            {
+                UserName = user.UserName,
+                Email = user.Email,
+                Portfolios = user.Portfolios
+            });
+    }
 
 }
