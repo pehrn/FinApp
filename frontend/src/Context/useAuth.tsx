@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { UserProfile } from "../Models/User";
 import {loginAPI, registerAPI } from "../Services/AuthService";
+import { handleError } from "../Helpers/ErrorHandler";
 
 type UserContextType = {
     user: UserProfile | null;
@@ -54,7 +55,7 @@ export const UserProvider = ({ children }: Props) => {
                 toast.success("Login successfull");
                 setTimeout(() => navigate("/"), 50);
             }
-        }).catch((e) => toast.warning("Server error occured."));
+        }).catch((e) => handleError(e));
     };
 
     const loginUser = async (username: string, password: string) => {
@@ -71,7 +72,7 @@ export const UserProvider = ({ children }: Props) => {
                 toast.success("Login successfull");
                 setTimeout(() => navigate("/"), 50);
             }
-        }).catch((e) => toast.warning("Server error occured."));
+        }).catch((e) => handleError(e));
     };
     
     const isLoggedIn = () => {

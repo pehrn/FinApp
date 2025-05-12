@@ -18,4 +18,8 @@ Allows user to create a portfolio of stocks and track company's financials.
 
 I have followed a very basic ASP.NET Web API + React course, but I have added (and still adding) some extra features.
 
+Sign-in with a demo user:
+- Username: demo
+- Password: demoUser!1234
+
 [Try the application](https://www.finapp-demo.com)

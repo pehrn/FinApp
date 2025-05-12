@@ -6,8 +6,14 @@ import { toast } from "react-toastify";
         if (axios.isAxiosError(error)) {
             
             var err = error.response;
-            
-            if (Array.isArray(err?.data.errors)) {
+
+            if (err && Array.isArray(err.data)) {
+                for (const val of err.data) {
+                    if (val.description) {
+                        toast.warning(val.description);
+                    }
+            }
+            } else if (Array.isArray(err?.data.errors)) {
                 for (let val of err?.data.errors) {
                     toast.warning(val.description);
                 }
