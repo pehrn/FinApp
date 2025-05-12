@@ -13,4 +13,4 @@ COPY . .
 WORKDIR /app/FinApp.Api
 
 # Entry point for development: dotnet watch
-CMD ["dotnet", "watch", "--project", "FinApp.Api.csproj", "run", "--urls=http://0.0.0.0:5000"]
+CMD ["dotnet", "watch", "--no-hot-reload", "--project", "FinApp.Api.csproj", "run", "--urls=http://0.0.0.0:5000"]

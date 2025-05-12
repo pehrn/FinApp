@@ -19,7 +19,7 @@ services:
     depends_on:
       - finapp_db
     restart: always
-    command: dotnet watch --project FinApp.Api.csproj run --urls=http://0.0.0.0:5000
+    command: dotnet watch --no-hot-reload --project FinApp.Api.csproj run --urls=http://0.0.0.0:5000
   
   
   finapp_db:
