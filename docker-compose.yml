@@ -10,12 +10,18 @@ services:
       - ConnectionStrings__DefaultConnection=User ID=${POSTGRES_USER};Password=${POSTGRES_PASSWORD};Server=${POSTGRES_SERVER};Port=${POSTGRES_PORT};Database=${POSTGRES_DB};
       - ASPNETCORE_URLS=http://+:5000
       - ASPNETCORE_ENVIRONMENT=Development
+      - DOTNET_USE_POLLING_FILE_WATCHER=1
+    volumes:
+      - ./FinApp.Api:/app/FinApp.Api
+    working_dir: /app/FinApp.Api
     env_file:
       - .env
     depends_on:
       - finapp_db
     restart: always
-
+    command: dotnet watch --project FinApp.Api.csproj run --urls=http://0.0.0.0:5000
+  
+  
   finapp_db:
     image: postgres:latest
     environment:

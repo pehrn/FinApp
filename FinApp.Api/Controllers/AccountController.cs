@@ -78,4 +78,13 @@ public class AccountController : ControllerBase
             return StatusCode(500, e);
         }
     }
+
+    // [HttpGet("{id:int}", Name = "GetUserById")]
+    // public async Task<IActionResult> GetUserById([FromRoute] int id)
+    // {
+    //     if (!ModelState.IsValid) return BadRequest(ModelState);
+    //     
+    //     var user = await _userManager.FindByIdAsync()
+    // }
+
 }

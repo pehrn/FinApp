@@ -1,6 +1,6 @@
-@FinApp.Api_HostAddress = http://localhost:5210
+@FinApp.Api_HostAddress = http://localhost:5000
 
-GET {{FinApp.Api_HostAddress}}/weatherforecast/
+GET {{FinApp.Api_HostAddress}}/login/
 Accept: application/json
 
 ###

@@ -1,11 +1,8 @@
-using FinApp.Api.Data;
 using FinApp.Api.Dtos.Stock;
 using FinApp.Api.Helpers;
 using FinApp.Api.Interfaces;
 using FinApp.Api.Mappers;
-using FinApp.Api.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace FinApp.Api.Controllers;
 
