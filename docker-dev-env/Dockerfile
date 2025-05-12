@@ -1,21 +1,16 @@
-FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
-WORKDIR /app
-EXPOSE 5000
+# Stage: SDK with Watch for Development
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS dev
 
-FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
-ARG BUILD_CONFIGURATION=Release
-WORKDIR /src
-COPY ["FinApp.Api/FinApp.Api.csproj", "FinApp.Api/"]
-RUN dotnet restore "FinApp.Api/FinApp.Api.csproj"
+WORKDIR /app
+
+# Copy project file and restore dependencies
+COPY ./FinApp.Api/FinApp.Api.csproj ./FinApp.Api/
+RUN dotnet restore ./FinApp.Api/FinApp.Api.csproj
+
+# Copy the rest of the source
 COPY . .
-WORKDIR "/src/FinApp.Api"
-RUN dotnet build "FinApp.Api.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
-FROM build AS publish 
-ARG BUILD_CONFIGURATION=Release
-RUN dotnet publish "FinApp.Api.csproj" -c $BUILD_CONFIGURATION -o /app/publish 
+WORKDIR /app/FinApp.Api
 
-FROM base AS final
-WORKDIR /app
-COPY --from=publish /app/publish .
-ENTRYPOINT [ "dotnet", "FinApp.Api.dll" ]
+# Entry point for development: dotnet watch
+CMD ["dotnet", "watch", "--no-hot-reload", "--project", "FinApp.Api.csproj", "run", "--urls=http://0.0.0.0:5000"]
