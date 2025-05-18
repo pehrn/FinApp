@@ -1,3 +1,4 @@
+using FinApp.Api.Data;
 using FinApp.Api.Dtos.Account;
 using FinApp.Api.Interfaces;
 using FinApp.Api.Models;
@@ -14,12 +15,17 @@ public class AccountController : ControllerBase
     private readonly UserManager<AppUser> _userManager;
     private readonly ITokenService _tokenService;
     private readonly SignInManager<AppUser> _signInManager;
+    private readonly IPortfolioRepository _portfolioRepo;
+    private readonly ApplicationDBContext _context;
+    
 
-    public AccountController(UserManager<AppUser> userManager, ITokenService tokenService, SignInManager<AppUser> signInManager)
+    public AccountController(UserManager<AppUser> userManager, ITokenService tokenService, SignInManager<AppUser> signInManager, IPortfolioRepository portfolioRepo, ApplicationDBContext context)
     {
         _userManager = userManager;
         _tokenService = tokenService;
         _signInManager = signInManager;
+        _portfolioRepo = portfolioRepo;
+        _context = context;
     }
 
     [HttpPost("login")]
@@ -88,12 +94,14 @@ public class AccountController : ControllerBase
         
         if (user == null) return NotFound();
         
+        var userPortfolio = await _portfolioRepo.GetUserPortfolio(user);
+        
         return Ok(
             new UserDto()
             {
                 UserName = user.UserName,
                 Email = user.Email,
-                Portfolios = user.Portfolios
+                Portfolio = userPortfolio
             });
     }
 

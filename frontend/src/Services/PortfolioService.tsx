@@ -3,7 +3,6 @@ import { handleError } from "../Helpers/ErrorHandler";
 import {PortfolioDelete, PortfolioGet, PortfolioPost } from "../Models/Portfolio";
 
 const api = "http://localhost:5000/api/portfolio";
-// const api = "http://localhost:5210/api/portfolio";
 // const api = "/api/portfolio";
 
 export const portfolioAddAPI = async (symbol: string) => {
