@@ -12,4 +12,5 @@ export type UserProfile = {
 export type User = {
     userName: string;
     email: string;
+    portfolio: any;
 }
