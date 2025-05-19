@@ -10,6 +10,7 @@ import HomePage from "../Pages/HomePage/HomePage";
 import LoginPage from "../Pages/LoginPage/LoginPage";
 import RegisterPage from "../Pages/RegisterPage/RegisterPage";
 import SearchPage from "../Pages/SearchPage/SearchPage";
+import ProfilePage from "../Pages/ProfilePage/ProfilePage";
 import ProtectedRoute from "./ProtectedRoute";
 
 export const router = createBrowserRouter([
@@ -22,6 +23,7 @@ export const router = createBrowserRouter([
             { path: "register", element: <RegisterPage /> },
             { path: "search", element: <ProtectedRoute><SearchPage /></ProtectedRoute> },
             { path: "design-guide", element: <DesignGuide /> },
+            { path: "user/:userName", element: <ProfilePage />},
             {
                 path: 
                     "company/:ticker", 
