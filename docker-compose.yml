@@ -39,13 +39,20 @@ services:
       context: ./frontend
       dockerfile: Dockerfile
     ports: 
-      - "8080:80"
+      - "8080:3000"
+    volumes:
+      - ./frontend:/app  
+      - /app/node_modules  
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+      - HOST=0.0.0.0
+    working_dir: /app
+    command: npm start
     depends_on:
       - finapp_api
       - finapp_db
     restart: always
       
-#          
 volumes: 
   finapp_data:
         
