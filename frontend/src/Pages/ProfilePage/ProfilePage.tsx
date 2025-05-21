@@ -20,12 +20,13 @@ const ProfilePage = (props: Props) => {
             setCurrentUser(JSON.parse(storedUser));
         }
         getUser();
-    }, []);
+    }, [userName]);
 
     const getUser = () => {
         getUserProfileAPI(userName!)
             .then((res) => {
                 setUser(res?.data!);
+                console.log(res?.data);
             })
             .catch((err) => {
                 toast.error(err);
@@ -56,6 +57,7 @@ const ProfilePage = (props: Props) => {
                     {user?.portfolio && user.portfolio.length > 0 ? (
                         <div className="grid gap-4">
                             {user.portfolio.map((stock: any) => (
+                                
                                 <div
                                     key={stock.id}
                                     className="p-4 bg-gray-100 rounded-xl shadow-sm hover:shadow-md transition"
@@ -78,13 +80,43 @@ const ProfilePage = (props: Props) => {
                         <p className="text-gray-500">No stocks in portfolio.</p>
                     )}
                 </div>
-                {/*<div class="mt-6 border-t pt-4">*/}
-                {/*    <h3 class="text-lg font-semibold text-gray-700 mb-2">Portfolio</h3>*/}
-                {/*    <div class="space-y-1 text-gray-600">*/}
-                {/*        <p><span class="font-medium">Email:</span> john.doe@example.com</p>*/}
-                {/*        <p><span class="font-medium">Phone:</span> +1 (555) 123-4567</p>*/}
-                {/*    </div>*/}
-                {/*</div>*/}
+                <div className="mt-6 border-t pt-4">
+                    <h3 className="text-lg font-semibold text-gray-700 mb-4">Comments</h3>
+
+                    {user?.comments && user.comments.length > 0 ? (
+                        <div className="grid gap-4">
+                            {user.comments.map((comment: any) => {
+                                const stock = user.portfolio.find((s: any) => s.id === comment.stockId);
+
+                                return (
+                                    <div
+                                        key={comment.id}
+                                        className="p-4 bg-gray-100 rounded-xl shadow-sm hover:shadow-md transition"
+                                    >
+                                        <div className="flex justify-between items-center mb-1">
+                                            <h4 className="font-semibold text-gray-800">{comment.title}</h4>
+                                            <span className="text-xs text-gray-500">
+                {new Date(comment.createdOn).toLocaleDateString()}
+              </span>
+                                        </div>
+                                        <p className="text-gray-700 mb-2">{comment.content}</p>
+
+                                        {stock && (
+                                            <a
+                                                href={`/company/${stock.symbol}/company-profile`} 
+                                                className="text-indigo-600 hover:underline text-sm"
+                                            >
+                                                {stock.companyName}
+                                            </a>
+                                        )}
+                                    </div>
+                                );
+                            })}
+                        </div>
+                    ) : (
+                        <p className="text-gray-500">No comments added yet.</p>
+                    )}
+                </div>
 
             </div>
             ) : (

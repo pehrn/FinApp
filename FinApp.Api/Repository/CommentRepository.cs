@@ -1,4 +1,5 @@
 using FinApp.Api.Data;
+using FinApp.Api.Dtos.Comment;
 using FinApp.Api.Helpers;
 using FinApp.Api.Interfaces;
 using FinApp.Api.Models;
@@ -62,5 +63,16 @@ public class CommentRepository : ICommentRepository
         await _context.SaveChangesAsync();
         
         return commentModel;
+    }
+
+    public async Task<List<CommentDto>> GetUserComments(AppUser user)
+    {
+        return await _context.Comments.Where(u => u.AppUserId == user.Id).Select(comment => new CommentDto
+        {
+            Id = comment.Id,
+            Title = comment.Title,
+            Content = comment.Content,
+            StockId = comment.StockId,
+        }).ToListAsync();
     }
 }

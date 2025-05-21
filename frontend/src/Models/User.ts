@@ -13,4 +13,5 @@ export type User = {
     userName: string;
     email: string;
     portfolio: any;
+    comments: any;
 }
