@@ -1,3 +1,4 @@
+using FinApp.Api.Data;
 using FinApp.Api.Dtos.Account;
 using FinApp.Api.Interfaces;
 using FinApp.Api.Models;
@@ -14,12 +15,19 @@ public class AccountController : ControllerBase
     private readonly UserManager<AppUser> _userManager;
     private readonly ITokenService _tokenService;
     private readonly SignInManager<AppUser> _signInManager;
+    private readonly IPortfolioRepository _portfolioRepo;
+    private readonly ICommentRepository _commentRepo;
+    private readonly ApplicationDBContext _context;
+    
 
-    public AccountController(UserManager<AppUser> userManager, ITokenService tokenService, SignInManager<AppUser> signInManager)
+    public AccountController(UserManager<AppUser> userManager, ITokenService tokenService, SignInManager<AppUser> signInManager, IPortfolioRepository portfolioRepo, ApplicationDBContext context, ICommentRepository commentRepo)
     {
         _userManager = userManager;
         _tokenService = tokenService;
         _signInManager = signInManager;
+        _portfolioRepo = portfolioRepo;
+        _context = context;
+        _commentRepo = commentRepo;
     }
 
     [HttpPost("login")]
@@ -78,4 +86,27 @@ public class AccountController : ControllerBase
             return StatusCode(500, e);
         }
     }
+
+    [HttpGet("{userName}", Name = "GetUserByUserName")]
+    public async Task<IActionResult> GetUserByUserName([FromRoute] string userName)
+    {
+        if (!ModelState.IsValid) return BadRequest(ModelState);
+
+        var user = await _userManager.FindByNameAsync(userName);
+        
+        if (user == null) return NotFound();
+        
+        var userPortfolio = await _portfolioRepo.GetUserPortfolio(user);
+        var userComments = await _commentRepo.GetUserComments(user);
+        
+        return Ok(
+            new UserDto()
+            {
+                UserName = user.UserName,
+                Email = user.Email,
+                Portfolio = userPortfolio,
+                Comments = userComments
+            });
+    }
+
 }

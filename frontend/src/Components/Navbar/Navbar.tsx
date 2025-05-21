@@ -27,7 +27,16 @@ const Navbar = (props: Props) => {
                 </div>
                 { isLoggedIn() ? (
                     <div className="hidden lg:flex items-center space-x-6 text-back">
-                        <div className="hover:text-darkBlue">Welcome back, { user?.userName }.</div>
+                        <div>
+                            Welcome back,{" "}
+                            <Link
+                                to={`/user/${user?.userName}`}
+                                className="text-blue-600 hover:underline"
+                            >
+                                {user?.userName}
+                            </Link>
+                            .
+                        </div>
                         <a onClick={logOut} className="px-4 py-1 font-bold rounded text-white bg-red-500 hover:opacity-70">
                             Logout
                         </a>

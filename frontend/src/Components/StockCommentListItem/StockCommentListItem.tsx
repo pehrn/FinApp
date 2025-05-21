@@ -1,5 +1,6 @@
 import React from 'react';
 import { CommentGet } from '../../Models/Comment';
+import { Link } from 'react-router-dom';
 
 interface Props {
     comment: CommentGet;
@@ -15,7 +16,14 @@ const StockCommentListItem = ({ comment }: Props) => {
                             {comment.title}
                         </p>
                     </div>
-                    <p className="text-dark text-sm">@{comment.createdBy}</p>
+                    <p className="text-dark text-sm">
+                        <Link
+                            to={`/user/${comment.createdBy}`}
+                            className="text-blue-600 hover:underline"
+                        >
+                            @{comment.createdBy}
+                        </Link>
+                    </p>
                 </div>
             </div>
             <p className="mt-4 text-gray-500">{comment.content}</p>
