@@ -16,7 +16,9 @@
 
 Allows user to create a portfolio of stocks and track company's financials.
 
-I have followed a very basic ASP.NET Web API + React course, but I have added (and still adding) some extra features.
+I have followed basic .NET API + React course, but I have added (and still adding) extra features to the app.
+
+Financial data obtained from Financial modeling prep API - [https://site.financialmodelingprep.com/](https://site.financialmodelingprep.com/).
 
 Sign-in with a demo user:
 - Username: demo
