@@ -120,12 +120,16 @@ const ProfilePage = (props: Props) => {
 
             </div>
             ) : (
-            <p className="mb-3 mt-3 text-xl font-semibold text-center md:text-xl">
-                User not found!
-            </p>
-        )
+            <div className="max-w-3xl mx-auto p-6 bg-white rounded-2xl shadow-lg mt-10">
+                <div className="flex items-center space-x-6">
+                    <div>
+                        <h2 className="text-2xl font-bold text-gray-800">User not found.</h2>
+                    </div>
+                </div>
+            </div>
+                )
+                }
+            </>;
         }
-    </>;
-}
 
-export default ProfilePage;
+        export default ProfilePage;
