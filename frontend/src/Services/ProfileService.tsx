@@ -3,7 +3,7 @@ import { handleError } from "../Helpers/ErrorHandler";
 import { User } from "../Models/User";
 
 const api = "http://localhost:5000/api/account/";
-// const api = "/api/comment";
+// const api = "/api/account/";
 
 export const getUserProfileAPI = async (userName: string) => {
     try {
