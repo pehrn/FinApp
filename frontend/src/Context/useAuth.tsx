@@ -70,7 +70,7 @@ export const UserProvider = ({ children }: Props) => {
                 setToken(res?.data.token!);
                 setUser(userObj!);
                 toast.success("Login successfull");
-                setTimeout(() => navigate("/"), 50);
+                setTimeout(() => navigate("/search"), 50);
             }
         }).catch((e) => handleError(e));
     };
@@ -88,11 +88,17 @@ export const UserProvider = ({ children }: Props) => {
         setTimeout(() => navigate("/"), 50);
     };
     
-    return (
+    // return (
+    //     <UserContext.Provider value={{ loginUser, user, token, logOut, isLoggedIn, registerUser }}>
+    //         { isReady ? children : null }
+    //     </UserContext.Provider>
+    // );
+
+    return isReady ? (
         <UserContext.Provider value={{ loginUser, user, token, logOut, isLoggedIn, registerUser }}>
-            { isReady ? children : null }
+            {children}
         </UserContext.Provider>
-    );
+    ) : null;
     
 };
 
