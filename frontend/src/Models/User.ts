@@ -14,4 +14,12 @@ export type User = {
     email: string;
     portfolio: any;
     comments: any;
+    aboutMe: string;
+    position: string;
+}
+
+export type EditUser = {
+    userName: string;
+    aboutMe: string;
+    position: string;
 }

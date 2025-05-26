@@ -18,9 +18,11 @@ public class AccountController : ControllerBase
     private readonly IPortfolioRepository _portfolioRepo;
     private readonly ICommentRepository _commentRepo;
     private readonly ApplicationDBContext _context;
-    
 
-    public AccountController(UserManager<AppUser> userManager, ITokenService tokenService, SignInManager<AppUser> signInManager, IPortfolioRepository portfolioRepo, ApplicationDBContext context, ICommentRepository commentRepo)
+
+    public AccountController(UserManager<AppUser> userManager, ITokenService tokenService,
+        SignInManager<AppUser> signInManager, IPortfolioRepository portfolioRepo, ApplicationDBContext context,
+        ICommentRepository commentRepo)
     {
         _userManager = userManager;
         _tokenService = tokenService;
@@ -34,13 +36,14 @@ public class AccountController : ControllerBase
     public async Task<IActionResult> Login(LoginDto loginDto)
     {
         if (!ModelState.IsValid) return BadRequest(ModelState);
-        
-        var user = await _userManager.Users.FirstOrDefaultAsync(x => x.UserName.ToLower() == loginDto.Username.ToLower());
-        
+
+        var user =
+            await _userManager.Users.FirstOrDefaultAsync(x => x.UserName.ToLower() == loginDto.Username.ToLower());
+
         if (user == null) return Unauthorized("User not found");
-        
+
         var result = await _signInManager.CheckPasswordSignInAsync(user, loginDto.Password, false);
-        
+
         if (!result.Succeeded) return Unauthorized("Username or password is incorrect");
 
         return Ok(
@@ -57,22 +60,22 @@ public class AccountController : ControllerBase
     {
         try
         {
-            if(!ModelState.IsValid) return BadRequest(ModelState);
+            if (!ModelState.IsValid) return BadRequest(ModelState);
 
             var appUser = new AppUser
             {
                 UserName = registerDto.Username,
                 Email = registerDto.Email,
             };
-            
+
             var createdUser = await _userManager.CreateAsync(appUser, registerDto.Password);
 
             if (!createdUser.Succeeded) return BadRequest(createdUser.Errors);
-            
+
             var roleResult = await _userManager.AddToRoleAsync(appUser, "User");
-                
+
             if (!roleResult.Succeeded) return BadRequest(roleResult.Errors);
-                
+
             return Ok(
                 new NewUserDto
                 {
@@ -93,20 +96,28 @@ public class AccountController : ControllerBase
         if (!ModelState.IsValid) return BadRequest(ModelState);
 
         var user = await _userManager.FindByNameAsync(userName);
-        
+
         if (user == null) return NotFound();
-        
+
         var userPortfolio = await _portfolioRepo.GetUserPortfolio(user);
         var userComments = await _commentRepo.GetUserComments(user);
-        
+
         return Ok(
             new UserDto()
             {
                 UserName = user.UserName,
                 Email = user.Email,
                 Portfolio = userPortfolio,
-                Comments = userComments
+                Comments = userComments,
+                AboutMe = user.AboutMe,
+                Position = user.Position
             });
     }
+
+    // [HttpPost("{userName}/edit-profile/", Name = "EditProfile")]
+    // public async Task<IActionResult> UpdateProfile()
+    // {
+    //     
+    // }
 
 }
