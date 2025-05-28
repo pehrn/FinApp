@@ -14,11 +14,10 @@ export const getUserProfileAPI = async (userName: string) => {
     }
 };
 
-export const updateProfileAPI = async (username: string, aboutMe: string, position: string) => {
+export const updateProfileAPI = async (userName: string, aboutMe: string, position: string) => {
     try {
 
-        const data = await axios.post<EditUser>(api + "account/edit-profile/", {
-            username: username,
+        const data = await axios.put<EditUser>(api + `${userName}/edit-profile/`, {
             aboutMe: aboutMe,
             position: position,
         });

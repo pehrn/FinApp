@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState } from 'react';
 import * as Yup from "yup";
-import { Outlet, useParams } from 'react-router-dom';
+import {Link, Outlet, useParams } from 'react-router-dom';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
-import { updateProfileAPI } from '../../../Services/ProfileService';
+import {getUserProfileAPI, updateProfileAPI } from '../../../Services/ProfileService';
+import { toast } from 'react-toastify';
 
 interface Props {};
 
@@ -21,12 +22,33 @@ const validation = Yup.object().shape({
 const EditProfile = ({}: Props) => {
 
     let { userName } = useParams();
-    const { register, handleSubmit, formState: { errors } } = useForm<EditProfileFormsInputs>({ resolver: yupResolver(validation) });
+    const { register, handleSubmit, formState: { errors }, reset } = useForm<EditProfileFormsInputs>({ resolver: yupResolver(validation) });
 
+    useEffect(() => {
+        const fetchProfile = async () => {
+            const response = await getUserProfileAPI(userName!);
+            const profile = response?.data;
+            if (profile) {
+                reset({
+                    position: profile.position || "",
+                    aboutMe: profile.aboutMe || ""
+                });
+            }
+        };
+        fetchProfile();
+    }, [userName, reset]);
+    
     const handleUpdate = (form: EditProfileFormsInputs) => {
-        updateProfileAPI(userName!, form.aboutMe, form.position);
-        console.log(form);
-    };
+        updateProfileAPI(userName!, form.aboutMe, form.position)
+            .then((res) => {
+                if (res) {
+                    toast.success("Your profile has been updated!");
+                }
+            })
+            .catch((err) => {
+                toast.warning(err);
+            });
+    }
 
     return (
         <form className="max-w-xl mx-auto mt-3" onSubmit={handleSubmit(handleUpdate)}>
@@ -39,7 +61,6 @@ const EditProfile = ({}: Props) => {
                 <input
                     type="text"
                     id="position"
-                    name="position"
                     placeholder="e.g. Frontend Developer"
                     className="block w-full rounded-xl border border-gray-300 px-4 py-3 shadow-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition"
                     {...register("position")}
@@ -53,8 +74,7 @@ const EditProfile = ({}: Props) => {
                 </label>
                 <textarea
                     id="aboutMe"
-                    name="aboutMe"
-                    rows="5"
+                    rows={5}
                     placeholder="Write a short bio about yourself..."
                     className="block w-full rounded-xl border border-gray-300 px-4 py-3 shadow-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition resize-none"
                     {...register("aboutMe")}
@@ -69,6 +89,12 @@ const EditProfile = ({}: Props) => {
                 >
                     Save Changes
                 </button>
+                <Link
+                    to={`/user/${userName}`}
+                    className="bg-red-600 text-white font-medium px-6 py-3 rounded-xl hover:bg-red-700 transition shadow ml-5"
+                >
+                    Close
+                </Link>
             </div>
         </form>
 

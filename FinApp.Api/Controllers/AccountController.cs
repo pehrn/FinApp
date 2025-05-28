@@ -2,6 +2,7 @@ using FinApp.Api.Data;
 using FinApp.Api.Dtos.Account;
 using FinApp.Api.Interfaces;
 using FinApp.Api.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -114,10 +115,24 @@ public class AccountController : ControllerBase
             });
     }
 
-    // [HttpPost("{userName}/edit-profile/", Name = "EditProfile")]
-    // public async Task<IActionResult> UpdateProfile()
-    // {
-    //     
-    // }
+    [HttpPut("{userName}/edit-profile/", Name = "EditProfile")]
+    [Authorize]
+    public async Task<IActionResult> UpdateProfile([FromRoute] string userName, [FromBody] UpdateProfileDto updateProfileDto)
+    {
+        if (!ModelState.IsValid) return BadRequest(ModelState);
+
+        var appUser = await _userManager.FindByNameAsync(userName);
+
+        if (appUser == null) return NotFound("User not found");
+
+        appUser.AboutMe = updateProfileDto.AboutMe ?? string.Empty;
+        appUser.Position = updateProfileDto.Position ?? string.Empty;
+
+        var result = await _userManager.UpdateAsync(appUser);
+        
+        if (!result.Succeeded) return BadRequest(result.Errors);
+        
+        return Ok("Your profile has been updated!");
+    }
 
 }

@@ -26,7 +26,6 @@ const UserProfile = (props: Props) => {
         getUserProfileAPI(userName!)
             .then((res) => {
                 setUser(res?.data!);
-                console.log(res?.data);
             })
             .catch((err) => {
                 toast.error(err);
