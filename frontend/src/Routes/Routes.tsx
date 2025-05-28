@@ -12,6 +12,8 @@ import RegisterPage from "../Pages/RegisterPage/RegisterPage";
 import SearchPage from "../Pages/SearchPage/SearchPage";
 import ProfilePage from "../Pages/ProfilePage/ProfilePage";
 import ProtectedRoute from "./ProtectedRoute";
+import EditProfile from "../Components/UserProfile/EditProfile/EditProfile";
+import UserProfile from "../Components/UserProfile/UserProfile/UserProfile";
 
 export const router = createBrowserRouter([
     {
@@ -23,7 +25,14 @@ export const router = createBrowserRouter([
             { path: "register", element: <RegisterPage /> },
             { path: "search", element: <ProtectedRoute><SearchPage /></ProtectedRoute> },
             { path: "design-guide", element: <DesignGuide /> },
-            { path: "user/:userName", element: <ProfilePage />},
+            {
+                path: "user/:userName",
+                element: <ProfilePage />,
+                children: [
+                    { index: true, element: <UserProfile /> },          // Default route, no extra path
+                    { path: "edit-profile", element: <ProtectedRoute><EditProfile /></ProtectedRoute> },
+                ],
+            },
             {
                 path: 
                     "company/:ticker", 
