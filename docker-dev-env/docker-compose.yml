@@ -21,7 +21,6 @@ services:
     restart: always
     command: dotnet watch --no-hot-reload --project FinApp.Api.csproj run --urls=http://0.0.0.0:5000
   
-  
   finapp_db:
     image: postgres:latest
     environment:
@@ -53,6 +52,22 @@ services:
       - finapp_db
     restart: always
       
+  pgadmin:
+    container_name: pgadmin4_container
+    image: dpage/pgadmin4
+    restart: always
+    ports:
+      - "5050:81"
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_EMAIL}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_PASSWORD}
+      PGADMIN_LISTEN_PORT: ${PGADMIN_LISTEN_PORT}
+    depends_on:
+      - finapp_db
+    volumes:
+      - pgadmin:/var/lib/pgadmin
+        
 volumes: 
   finapp_data:
+  pgadmin:
         

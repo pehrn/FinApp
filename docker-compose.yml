@@ -52,6 +52,21 @@ services:
       - finapp_api
       - finapp_db
     restart: always
+    
+  pgadmin:
+    container_name: pgadmin4_container
+    image: dpage/pgadmin4
+    restart: always
+    ports:
+      - "5050:81"
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_EMAIL}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_PASSWORD}
+      PGADMIN_LISTEN_PORT: ${PGADMIN_LISTEN_PORT}
+    depends_on:
+      - finapp_db
+    volumes:
+      - pgadmin:/var/lib/pgadmin
       
 volumes: 
   finapp_data:

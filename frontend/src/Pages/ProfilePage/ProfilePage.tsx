@@ -1,7 +1,7 @@
 import React, {useEffect, useState } from 'react';
 import { getUserProfileAPI } from '../../Services/ProfileService';
 import { toast } from 'react-toastify';
-import {Link, Outlet, useParams } from 'react-router-dom';
+import { Link, Outlet, useParams } from 'react-router-dom';
 import { User } from '../../Models/User';
 import ProfileDashboard from '../../Components/UserProfile/ProfileDashboard/ProfileDashboard';
 import UserProfile from '../../Components/UserProfile/UserProfile/UserProfile';
