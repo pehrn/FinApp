@@ -56,10 +56,17 @@ builder.Services.AddControllers().AddNewtonsoftJson(options =>
     options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
 });
 
+var dbServer = Environment.GetEnvironmentVariable("POSTGRES_SERVER");
+var dbPort = Environment.GetEnvironmentVariable("POSTGRES_PORT");
+var dbName = Environment.GetEnvironmentVariable("POSTGRES_DB");
+var dbUser = Environment.GetEnvironmentVariable("POSTGRES_USER");
+var dbPassword = Environment.GetEnvironmentVariable("POSTGRES_PASSWORD");
+
+var connectionString =
+    $"Host={dbServer};Port={dbPort};Database={dbName};Username={dbUser};Password={dbPassword}";
+
 builder.Services.AddDbContext<ApplicationDBContext>(options =>
-{
-    options.UseNpgsql(builder.Configuration.GetConnectionString(Environment.GetEnvironmentVariable("DB_CONNECTION_STRING")));
-});
+    options.UseNpgsql(connectionString));
 
 builder.Services
     .AddIdentity<AppUser, IdentityRole>(options =>

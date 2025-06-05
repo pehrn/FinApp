@@ -31,6 +31,8 @@ services:
     ports:
       - "5432:5432"
     restart: always
+    env_file:
+      - .env
     volumes:
       - finapp_data:/var/lib/postgresql/data
       
@@ -70,4 +72,5 @@ services:
       
 volumes: 
   finapp_data:
+  pgadmin:
         

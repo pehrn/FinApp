@@ -110,8 +110,8 @@ public class AccountController : ControllerBase
                 Email = user.Email,
                 Portfolio = userPortfolio,
                 Comments = userComments,
-                AboutMe = user.AboutMe,
-                Position = user.Position
+                AboutMe = user.AboutMe ?? "",
+                Position = user.Position ?? ""
             });
     }
 
