@@ -6,7 +6,9 @@ using FinApp.Api.Interfaces;
 using FinApp.Api.Models;
 using FinApp.Api.Repository;
 using FinApp.Api.Service;
+using HealthChecks.UI.Client;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
@@ -145,7 +147,10 @@ if (app.Environment.IsProduction())
     );
 }
 
-app.MapHealthChecks("/_health");
+app.MapHealthChecks("/_health", new HealthCheckOptions
+{
+    ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
+});
     
 
 app.UseAuthentication();
