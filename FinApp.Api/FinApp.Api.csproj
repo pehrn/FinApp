@@ -29,5 +29,11 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Reference Include="Npgsql">
+      <HintPath>..\..\..\.nuget\packages\npgsql\8.0.6\lib\net8.0\Npgsql.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
 
 </Project>

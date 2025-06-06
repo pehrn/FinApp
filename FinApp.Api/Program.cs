@@ -1,6 +1,7 @@
 using FinApp.Api.Data;
 using Microsoft.EntityFrameworkCore;
 using DotNetEnv;
+using FinApp.Api.Health;
 using FinApp.Api.Interfaces;
 using FinApp.Api.Models;
 using FinApp.Api.Repository;
@@ -21,6 +22,10 @@ Env.TraversePath().Load();
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddScoped<DbConnectionFactory>();
+builder.Services.AddHealthChecks()
+    .AddCheck<DatabaseHealthCheck>("Database");
+
 
 builder.Services.AddSwaggerGen(option =>
 {
@@ -140,6 +145,8 @@ if (app.Environment.IsProduction())
     );
 }
 
+app.MapHealthChecks("/_health");
+    
 
 app.UseAuthentication();
 app.UseAuthorization();

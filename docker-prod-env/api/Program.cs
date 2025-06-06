@@ -21,6 +21,9 @@ Env.TraversePath().Load();
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddScoped<DbConnectionFactory>();
+builder.Services.AddHealthChecks()
+    .AddCheck<DatabaseHealthCheck>("Database");
 
 builder.Services.AddSwaggerGen(option =>
 {
@@ -126,7 +129,10 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+
 // app.UseHttpsRedirection();
+
+app.MapHealthChecks("/_health");
 
 app.UseCors(x => x
     .AllowAnyMethod()
