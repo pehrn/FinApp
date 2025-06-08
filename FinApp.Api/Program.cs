@@ -1,6 +1,7 @@
 using FinApp.Api.Data;
 using Microsoft.EntityFrameworkCore;
 using DotNetEnv;
+using FinApp.Api.Extensions;
 using FinApp.Api.Health;
 using FinApp.Api.Interfaces;
 using FinApp.Api.Models;
@@ -124,6 +125,7 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+    app.ApplyMigrations();
     
     app.UseCors(x => x
         .AllowAnyMethod()

@@ -1,11 +1,14 @@
 using FinApp.Api.Data;
 using Microsoft.EntityFrameworkCore;
 using DotNetEnv;
+using FinApp.Api.Health;
 using FinApp.Api.Interfaces;
 using FinApp.Api.Models;
 using FinApp.Api.Repository;
 using FinApp.Api.Service;
+using HealthChecks.UI.Client;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
@@ -132,7 +135,6 @@ if (app.Environment.IsDevelopment())
 
 // app.UseHttpsRedirection();
 
-app.MapHealthChecks("/_health");
 
 app.UseCors(x => x
     .AllowAnyMethod()
@@ -140,6 +142,11 @@ app.UseCors(x => x
     .AllowCredentials()
     .WithOrigins("https://finapp-demo.com", "https://www.finapp-demo.com")
 );
+
+app.MapHealthChecks("/_health", new HealthCheckOptions
+{
+    ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
+});
 
 app.UseAuthentication();
 app.UseAuthorization();
