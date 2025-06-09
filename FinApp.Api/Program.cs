@@ -140,6 +140,8 @@ if (app.Environment.IsDevelopment())
 
 if (app.Environment.IsProduction())
 {
+    app.ApplyMigrations();
+    
     app.UseCors(x => x
             .AllowAnyMethod()
             .AllowAnyHeader()
@@ -147,6 +149,7 @@ if (app.Environment.IsProduction())
             .WithOrigins("https://finapp-demo.com", "https://www.finapp-demo.com")
         // .SetIsOriginAllowed(origin => true)
     );
+    
 }
 
 app.MapHealthChecks("/_health", new HealthCheckOptions
